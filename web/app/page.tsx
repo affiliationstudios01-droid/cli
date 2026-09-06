@@ -1,0 +1,59 @@
+"use client"
+
+import { useState } from "react"
+import { ArrowDownLeft, ArrowUpRight, BarChart3, Bell, Bitcoin, ChevronDown, CircleDollarSign, Clock3, CreditCard, LayoutDashboard, Menu, MoreHorizontal, Moon, Settings, ShieldCheck, Sparkles, Wallet, X } from "lucide-react"
+
+const navItems = [
+  { label: "Dashboard", icon: LayoutDashboard },
+  { label: "Buy Crypto", icon: ArrowDownLeft },
+  { label: "Sell Crypto", icon: ArrowUpRight },
+  { label: "Transactions", icon: CreditCard },
+  { label: "Analytics", icon: BarChart3 },
+]
+
+const assets = [
+  { symbol: "ETH", name: "Ethereum", amount: "2.48 ETH", value: "$8,420.16", change: "+4.82%", tone: "violet", icon: Sparkles },
+  { symbol: "USDC", name: "USD Coin", amount: "4,250.00 USDC", value: "$4,250.00", change: "+0.01%", tone: "blue", icon: CircleDollarSign },
+  { symbol: "BTC", name: "Bitcoin", amount: "0.037 BTC", value: "$2,780.44", change: "+2.14%", tone: "orange", icon: Bitcoin },
+]
+
+const transactions = [
+  { type: "Received", asset: "Ethereum", amount: "+0.82 ETH", fiat: "+$2,784.20", date: "Today, 10:24 AM", status: "Completed", icon: ArrowDownLeft, tone: "success" },
+  { type: "Sent", asset: "USD Coin", amount: "-500.00 USDC", fiat: "-$500.00", date: "Yesterday, 4:18 PM", status: "Completed", icon: ArrowUpRight, tone: "muted" },
+  { type: "Swap", asset: "BTC → ETH", amount: "0.012 BTC", fiat: "$902.40", date: "Aug 24, 11:07 AM", status: "Pending", icon: ArrowDownLeft, tone: "warning" },
+  { type: "Received", asset: "Bitcoin", amount: "+0.025 BTC", fiat: "+$1,876.50", date: "Aug 21, 9:42 AM", status: "Completed", icon: ArrowDownLeft, tone: "success" },
+]
+
+export default function Dashboard() {
+  const [active, setActive] = useState("Dashboard")
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [connected, setConnected] = useState(false)
+
+  return (
+    <main className="min-h-screen bg-background text-foreground">
+      <aside className={`fixed inset-y-0 left-0 z-20 flex w-64 flex-col border-r border-border bg-sidebar px-5 py-6 transition-transform lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
+        <div className="flex items-center justify-between px-2">
+          <div className="flex items-center gap-3"><div className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-[0_0_24px_hsl(var(--primary)/.35)]"><ShieldCheck className="size-5" /></div><span className="font-mono text-lg font-bold tracking-[0.24em]">TOTALITY</span></div>
+          <button className="text-muted-foreground lg:hidden" onClick={() => setSidebarOpen(false)} aria-label="Close menu"><X className="size-5" /></button>
+        </div>
+        <div className="mt-14 flex flex-col gap-2">
+          <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Overview</p>
+          {navItems.map(({ label, icon: Icon }) => <button key={label} onClick={() => { setActive(label); setSidebarOpen(false) }} className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition ${active === label ? "bg-primary/15 text-primary" : "text-muted-foreground hover:bg-accent hover:text-foreground"}`}><Icon className="size-[18px]" />{label}</button>)}
+        </div>
+        <div className="mt-auto flex flex-col gap-2"><button onClick={() => setActive("Settings")} className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm ${active === "Settings" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:bg-accent hover:text-foreground"}`}><Settings className="size-[18px]" />Settings</button><div className="mt-4 rounded-2xl border border-border bg-card p-4"><div className="mb-3 flex items-center gap-2 text-xs text-muted-foreground"><Moon className="size-4" />Dark mode<span className="ml-auto size-2 rounded-full bg-primary" /></div><p className="text-xs leading-relaxed text-muted-foreground">Your portfolio, unified.</p></div></div>
+      </aside>
+      {sidebarOpen && <button aria-label="Close sidebar overlay" className="fixed inset-0 z-10 bg-background/70 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+      <section className="lg:pl-64"><header className="flex h-20 items-center justify-between border-b border-border px-5 md:px-10"><div className="flex items-center gap-4"><button onClick={() => setSidebarOpen(true)} className="text-muted-foreground lg:hidden" aria-label="Open menu"><Menu /></button><div><p className="text-xs text-muted-foreground">Wednesday, August 28, 2024</p><h1 className="mt-1 text-xl font-semibold tracking-tight">Good morning, Alex</h1></div></div><div className="flex items-center gap-3"><button aria-label="Notifications" className="relative hidden rounded-xl border border-border p-2.5 text-muted-foreground hover:bg-accent sm:block"><Bell className="size-4" /><span className="absolute right-2 top-2 size-1.5 rounded-full bg-primary" /></button><button onClick={() => setConnected(!connected)} className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_8px_24px_hsl(var(--primary)/.2)] transition hover:brightness-110"><Wallet className="size-4" />{connected ? "0x71...A9F2" : "Connect wallet"}<ChevronDown className="hidden size-4 opacity-70 sm:block" /></button></div></header>
+        <div className="mx-auto max-w-[1440px] px-5 py-8 md:px-10 md:py-10"><div className="mb-8 flex items-end justify-between"><div><p className="mb-2 text-sm text-muted-foreground">Your total balance</p><div className="flex flex-wrap items-baseline gap-3"><h2 className="text-4xl font-semibold tracking-[-0.04em] md:text-5xl">$15,450.60</h2><span className="rounded-full bg-success/10 px-2.5 py-1 text-xs font-semibold text-success">+3.84%</span></div><p className="mt-2 text-sm text-muted-foreground">+$571.20 <span className="text-muted-foreground/70">in the last 24 hours</span></p></div><button className="hidden items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-accent sm:flex">Last 30 days <ChevronDown className="size-3.5" /></button></div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><Stat label="Total Balance" value="$15,450.60" detail="+$571.20 today" icon={Wallet} /><Stat label="24h Change" value="+3.84%" detail="Portfolio growth" icon={BarChart3} accent="success" /><Stat label="Assets Held" value="03" detail="Across 3 networks" icon={CircleDollarSign} /><Stat label="Pending Transactions" value="01" detail="Needs confirmation" icon={Clock3} accent="warning" /></div>
+          <div className="mt-10 flex items-end justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Your portfolio</p><h3 className="mt-2 text-2xl font-semibold tracking-tight">Assets</h3></div><button className="text-sm font-medium text-primary hover:underline">View all assets <span aria-hidden="true">→</span></button></div>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">{assets.map((asset) => <AssetCard key={asset.symbol} {...asset} />)}</div>
+          <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card"><div className="flex items-center justify-between border-b border-border px-5 py-5 md:px-6"><div><h3 className="font-semibold">Recent transactions</h3><p className="mt-1 text-sm text-muted-foreground">Your latest wallet activity</p></div><button className="text-sm font-medium text-primary hover:underline">View all <span aria-hidden="true">→</span></button></div><div className="overflow-x-auto"><table className="w-full min-w-[700px] text-left"><thead><tr className="border-b border-border text-[10px] uppercase tracking-[0.14em] text-muted-foreground"><th className="px-6 py-4 font-medium">Transaction</th><th className="px-6 py-4 font-medium">Amount</th><th className="px-6 py-4 font-medium">Date</th><th className="px-6 py-4 font-medium">Status</th><th className="px-6 py-4" /></tr></thead><tbody>{transactions.map((tx) => <tr key={tx.date} className="border-b border-border/70 last:border-0 hover:bg-accent/40"><td className="px-6 py-4"><div className="flex items-center gap-3"><div className={`grid size-9 place-items-center rounded-xl ${tx.tone === "success" ? "bg-success/10 text-success" : tx.tone === "warning" ? "bg-warning/10 text-warning" : "bg-muted text-muted-foreground"}`}><tx.icon className="size-4" /></div><div><p className="text-sm font-medium">{tx.type}</p><p className="text-xs text-muted-foreground">{tx.asset}</p></div></div></td><td className="px-6 py-4"><p className="text-sm font-medium">{tx.amount}</p><p className="text-xs text-muted-foreground">{tx.fiat}</p></td><td className="px-6 py-4 text-sm text-muted-foreground">{tx.date}</td><td className="px-6 py-4"><span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${tx.status === "Completed" ? "bg-success/10 text-success" : "bg-warning/10 text-warning"}`}>{tx.status}</span></td><td className="px-6 py-4 text-right"><button aria-label={`More options for ${tx.type}`} className="rounded-lg p-2 text-muted-foreground hover:bg-accent"><MoreHorizontal className="size-4" /></button></td></tr>)}</tbody></table></div></div>
+        </div></section>
+    </main>
+  )
+}
+
+function Stat({ label, value, detail, icon: Icon, accent = "primary" }: { label: string; value: string; detail: string; icon: typeof Wallet; accent?: string }) { return <div className="rounded-2xl border border-border bg-card p-5"><div className="flex items-center justify-between"><span className="text-sm text-muted-foreground">{label}</span><Icon className={`size-4 ${accent === "success" ? "text-success" : accent === "warning" ? "text-warning" : "text-primary"}`} /></div><p className="mt-5 text-2xl font-semibold tracking-tight">{value}</p><p className="mt-1 text-xs text-muted-foreground">{detail}</p></div> }
+function AssetCard({ symbol, name, amount, value, change, tone, icon: Icon }: (typeof assets)[number]) { return <div className="group rounded-2xl border border-border bg-card p-5 transition hover:-translate-y-0.5 hover:border-primary/40"><div className="flex items-start justify-between"><div className={`grid size-11 place-items-center rounded-2xl ${tone === "violet" ? "bg-primary/15 text-primary" : tone === "blue" ? "bg-info/15 text-info" : "bg-warning/15 text-warning"}`}><Icon className="size-5" /></div><button aria-label={`Open ${symbol} options`} className="text-muted-foreground opacity-0 transition group-hover:opacity-100"><MoreHorizontal className="size-5" /></button></div><div className="mt-6 flex items-end justify-between"><div><p className="font-semibold">{symbol}</p><p className="mt-1 text-xs text-muted-foreground">{name}</p></div><div className="text-right"><p className="text-sm font-semibold">{amount}</p><p className="mt-1 text-xs text-muted-foreground">{value}</p></div></div><div className="mt-5 flex items-center justify-between border-t border-border pt-4"><span className="text-xs text-muted-foreground">24h performance</span><span className="text-xs font-semibold text-success">{change}</span></div></div> }
+

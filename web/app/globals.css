@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+:root { --background: 240 29% 8%; --foreground: 240 20% 96%; --card: 240 25% 11%; --card-foreground: 240 20% 96%; --primary: 239 84% 67%; --primary-foreground: 0 0% 100%; --secondary: 240 22% 16%; --muted: 240 20% 15%; --muted-foreground: 235 13% 61%; --accent: 240 25% 17%; --border: 240 19% 19%; --sidebar: 240 29% 7%; --success: 153 67% 52%; --warning: 38 92% 58%; --info: 204 90% 62%; }
+@theme inline { --color-background: hsl(var(--background)); --color-foreground: hsl(var(--foreground)); --color-card: hsl(var(--card)); --color-card-foreground: hsl(var(--card-foreground)); --color-primary: hsl(var(--primary)); --color-primary-foreground: hsl(var(--primary-foreground)); --color-secondary: hsl(var(--secondary)); --color-muted: hsl(var(--muted)); --color-muted-foreground: hsl(var(--muted-foreground)); --color-accent: hsl(var(--accent)); --color-border: hsl(var(--border)); --color-sidebar: hsl(var(--sidebar)); --color-success: hsl(var(--success)); --color-warning: hsl(var(--warning)); --color-info: hsl(var(--info)); --font-sans: var(--font-geist); --font-mono: var(--font-geist-mono); }
+* { border-color: hsl(var(--border)); }
+html { background: hsl(var(--background)); }
+body { background: hsl(var(--background)); font-family: Arial, sans-serif; }
+button { cursor: pointer; }
